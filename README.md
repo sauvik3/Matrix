@@ -25,4 +25,4 @@ Usage
 
 To use the library in your program, you must build it and include
 respective header files (matrix.h, matrix_exception.h, matrix_error_messages.h)
-and link against the static/export library build(matrix.lib).
+and link against the static/export library (matrix.lib).
