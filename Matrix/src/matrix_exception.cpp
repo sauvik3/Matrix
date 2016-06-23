@@ -1,6 +1,3 @@
-#ifndef __MATRIX_EXCEPTION_CPP_INCLUDED__
-#define __MATRIX_EXCEPTION_CPP_INCLUDED__
-
 #include <string>
 
 #include "matrix_exception.h"
@@ -27,5 +24,3 @@ const char * MatrixException::what() const throw()
 
 	return errMsg.c_str();
 }
-
-#endif

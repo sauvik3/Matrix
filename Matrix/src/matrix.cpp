@@ -1,6 +1,3 @@
-#ifndef __MATRIX_CPP_INCLUDED__
-#define __MATRIX_CPP_INCLUDED__
-
 /*-------------------------- Include Directives -------------------------*/
 #include <vector>
 
@@ -449,5 +446,3 @@ template MATRIX_API bool MATRIX_CALL operator!=(const Matrix<double>&, const Mat
 template MATRIX_API Matrix<double> MATRIX_CALL inverse(const Matrix<float>&);
 template MATRIX_API Matrix<float> MATRIX_CALL inverse(const Matrix<double>&);
 /* End of Specializations */
-
-#endif
