@@ -155,6 +155,10 @@ template<typename _Tp> template<typename _Scalar> Matrix<_Tp>& MATRIX_CALL Matri
 template<typename _Tp> template<typename _Scalar> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator/=(const _Scalar& k) {
 	std::size_t i;
 
+	if (k == 0) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_DIVIDE_BY_ZERO);
+	}
+
 	for (i = 0; i < this->getM(); ++i) {
 		std::size_t j;
 		for (j = 0; j < this->getN(); ++j) {
@@ -206,6 +210,10 @@ template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL operator
 template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL operator/(const Matrix<_Tp>& A, const _Dt& k) {
 	Matrix<_Dt> C(A.getM(), A.getN());
 	std::size_t i;
+
+	if (k == 0) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_DIVIDE_BY_ZERO);
+	}
 
 	for (i = 0; i < A.getM(); ++i) {
 		std::size_t j;
@@ -416,6 +424,8 @@ template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL inverse(
 	B = adjoint(A);
 	if (det != 0) {
 		C = B / static_cast<_Dt>(det);
+	} else {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_NOT_INVERTIBLE);
 	}
 
 	return C;

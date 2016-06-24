@@ -13,6 +13,8 @@ public:
 		MATRIX_INVALID_INDEX,
 		MATRIX_INCOMPATIBLE_ORDER,
 		MATRIX_NOT_SQUARE,
+		MATRIX_DIVIDE_BY_ZERO,
+		MATRIX_NOT_INVERTIBLE
 	};
 
 	explicit MatrixException(MatrixError reason) : errorCode(reason) {};

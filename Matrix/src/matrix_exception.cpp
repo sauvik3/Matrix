@@ -18,6 +18,11 @@ const char * MatrixException::what() const throw()
 	case MatrixError::MATRIX_INCOMPATIBLE_ORDER:	errMsg = STR_MATRIX_INCOMPATIBLE_ORDER;
 		break;
 	case MatrixError::MATRIX_NOT_SQUARE:	errMsg = STR_MATRIX_NOT_SQUARE;
+		break;
+	case MatrixError::MATRIX_DIVIDE_BY_ZERO:	errMsg = STR_MATRIX_DIVIDE_BY_ZERO;
+		break;
+	case MatrixError::MATRIX_NOT_INVERTIBLE:	errMsg = STR_MATRIX_MATRIX_NOT_INVERTIBLE;
+		break;
 	default:
 		break;
 	}

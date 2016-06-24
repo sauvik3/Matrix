@@ -44,7 +44,7 @@ template<typename _Tp> void print_matrix(const Matrix<_Tp> &A) throw() {
 	size_t w1, w2;
 
 	if ((A.getM() == 0) || (A.getN() == 0)) {
-		std::cout << (unsigned char)LUCNR;
+		std::cout << "\n" << (unsigned char)LUCNR;
 		std::cout << "     ";
 		std::cout << (unsigned char)RUCNR;
 		std::cout << "\n" << (unsigned char)VRT;
