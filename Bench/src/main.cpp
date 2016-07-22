@@ -2,7 +2,7 @@
 #include <functional>
 #include <string>
 #include <iostream>
-#include <stdexcept>
+#include <iomanip>
 #include <chrono>
 #include <ctime>
 #include <random>
@@ -13,8 +13,7 @@
 #define BEN_ORDER 8
 
 /*---------------------------- Benchmark ------------------------------*/
-class Timer
-{
+class Timer {
 public:
 	Timer() : beg_(clock_::now()) {}
 	void reset() { beg_ = clock_::now(); }
@@ -35,7 +34,7 @@ template<typename _Tp> Matrix<_Tp> fill_matrix(const size_t m, const size_t n) {
 
 	//Type of random number distribution
 	std::uniform_real_distribution<_Tp> dist(-100, 100);  //(min, max)
-														  //Mersenne Twister: Good quality random number generator
+	//Mersenne Twister: Good quality random number generator
 	std::mt19937 rng;
 	//Initialize with non-deterministic seeds
 	rng.seed(std::random_device{}());
@@ -68,8 +67,8 @@ template<typename _Tp> double determinant_matrix();
 /*---------------------------- Main Routine ---------------------------*/
 int main() {
 	std::vector< std::string > menu = {
-		"Add Matrices",
-		"Multiply Matrices",
+		"Matrix Addition",
+		"Matrix Multiplication",
 		"Matrix Transpose",
 		"Matrix Adjoint",
 		"Matrix Inverse",
@@ -85,29 +84,33 @@ int main() {
 	menuAction.push_back(inverse_matrix<double, float>);
 	menuAction.push_back(determinant_matrix<float>);
 
-	size_t choice;
 	size_t menuCount = menu.size();
 
 	std::cout << "\nMatrix Operation Benchmark";
 	for (size_t i = 1; i <= menuCount; ++i) {
 		double t;
-		std::cout << "\n" << i << ". " << menu.at(i - 1) << " : ";
-		choice = i;
-		if (menuAction.at(choice - 1) != NULL) {
+		std::cout << std::endl << std::left << std::setw(0)
+			<< i << ". ";
+		std::cout << std::left << std::setfill(' ') << std::setw(25)
+			<< menu.at(i - 1) << " : ";
+		if (menuAction.at(i - 1) != NULL) {
 			try {
-				t = menuAction.at(choice - 1)();
+				t = menuAction.at(i - 1)();
+				std::cout << std::left << std::setw(0)
+					<< std::scientific << std::setprecision(2)
+					<< std::noshowpos << std::nouppercase << t << "ms";
 			}
 			catch (MatrixException &e) {
+				std::cout << "Failed";
 				std::cout << "\nError : " << e.what() << std::endl;
 			}
-			catch (std::runtime_error &e) {
-				std::cout << "\nError : " << e.what() << std::endl;
-			}
-			std::cout << t << "ms";
 		}
 	}
 }
-/*---------------------------- I/O Wrappers ---------------------------*/
+/*---------------------------------------------------------------------*/
+
+
+/*------------------------------ Wrappers -----------------------------*/
 template<typename _Tp> double add_matrix() {
 	Matrix<_Tp> A, B, C;
 	double t;
