@@ -68,21 +68,21 @@ template<typename _Tp> double determinant_matrix();
 int main() {
 	std::vector< std::string > menu = {
 		"Matrix Addition",
-		"Matrix Multiplication",
+		"Matrix Multiplication"/*,
 		"Matrix Transpose",
 		"Matrix Adjoint",
 		"Matrix Inverse",
-		"Determinant"
+		"Determinant"*/
 	};
 
 	std::vector< std::function<double()> > menuAction =
 		std::vector<std::function<double()> >(0);
 	menuAction.push_back(add_matrix<double>);
 	menuAction.push_back(multiply_matrix<double>);
-	menuAction.push_back(transpose_matrix<double>);
+	/*menuAction.push_back(transpose_matrix<double>);
 	menuAction.push_back(adjoint_matrix<double>);
 	menuAction.push_back(inverse_matrix<double, float>);
-	menuAction.push_back(determinant_matrix<float>);
+	menuAction.push_back(determinant_matrix<float>);*/
 
 	size_t menuCount = menu.size();
 

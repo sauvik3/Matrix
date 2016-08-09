@@ -1,6 +1,6 @@
 @echo on
-@for %%X in (cl.exe) do (set CLFOUND=%%~$PATH:X)
-if not defined CLFOUND (
+@for %%X in (cl.exe) do @ (set CLFOUND=%%~$PATH:X)
+@if not defined CLFOUND (
     call "C:\Program Files\Microsoft Visual Studio 14.0\VC\vcvarsall.bat"
 )
 
