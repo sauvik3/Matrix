@@ -10,7 +10,7 @@
 #include "matrix.h"
 #include "matrix_exception.h"
 
-#define BEN_ORDER 8
+#define BEN_ORDER 1000L
 
 /*---------------------------- Benchmark ------------------------------*/
 class Timer {
@@ -106,6 +106,18 @@ int main() {
 			}
 		}
 	}
+
+	/*Matrix<float> A;
+	Matrix<double> B;
+	Matrix<float> C;
+	A = fill_matrix<float>(BEN_ORDER, BEN_ORDER-10);
+	B = fill_matrix<double>(BEN_ORDER, BEN_ORDER-10);
+	C = fill_matrix<float>(BEN_ORDER, BEN_ORDER-10);
+	B *= 5.0f;
+	std::cout << "\nResult : " << (A==C);
+	B = A * 3.0;*/
+
+	return 0;
 }
 /*---------------------------------------------------------------------*/
 
@@ -125,7 +137,6 @@ template<typename _Tp> double add_matrix() {
 	{
 		Timer tmr;
 		C = A + B;
-		tmr.reset();
 		t = tmr.elapsed();
 	}
 
@@ -147,7 +158,6 @@ template<typename _Tp> double multiply_matrix() {
 	{
 		Timer tmr;
 		C = A * B;
-		tmr.reset();
 		t = tmr.elapsed();
 	}
 
@@ -166,7 +176,6 @@ template<typename _Tp> double transpose_matrix() {
 	{
 		Timer tmr;
 		C = transpose<_Tp>(A);
-		tmr.reset();
 		t = tmr.elapsed();
 	}
 
@@ -185,7 +194,6 @@ template<typename _Tp> double adjoint_matrix() {
 	{
 		Timer tmr;
 		C = adjoint<_Tp>(A);
-		tmr.reset();
 		t = tmr.elapsed();
 	}
 
@@ -205,7 +213,6 @@ template<typename _Tp, typename _Dt> double inverse_matrix() {
 	{
 		Timer tmr;
 		C = inverse<_Tp, _Dt>(A);
-		tmr.reset();
 		t = tmr.elapsed();
 	}
 
@@ -225,7 +232,6 @@ template<typename _Tp> double determinant_matrix() {
 	{
 		Timer tmr;
 		det = determinant<_Tp>(A);
-		tmr.reset();
 		t = tmr.elapsed();
 	}
 

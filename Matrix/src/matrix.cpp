@@ -1,5 +1,6 @@
 /*-------------------------- Include Directives -------------------------*/
 #include <vector>
+#include <thread>
 
 #include "matrix.h"
 #include "matrix_exception.h"
@@ -74,48 +75,84 @@ template<typename _Tp> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator=(const M
 }
 
 template<typename _Tp> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator+=(const Matrix<_Tp>& A) {
-	std::size_t i;
+	register std::size_t i;
+	std::vector <std::thread> th;
 
 	if ((A.getM() != this->getM()) || (A.getN() != this->getN())) {
 		throw MatrixException(MatrixException::MatrixError::MATRIX_INCOMPATIBLE_ORDER);
 	}
 
 	for (i = 0; i < this->m; ++i) {
-		std::size_t j;
-		for (j = 0; j < this->n; ++j) {
-			(*this)(i, j) += A(i, j);
-		}
+		// Capture everything by value.
+		th.push_back(std::thread([=]() {
+			register std::size_t j;
+
+			for (j = 0; j < this->n; ++j) {
+				(*this)(i, j) += A(i, j);
+			}
+		}));
 	}
+	for(std::thread &t : th) {
+		t.join();
+	};
 
 	return *this;
 }
 
 template<typename _Tp> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator-=(const Matrix<_Tp>& A) {
-	std::size_t i;
+	register std::size_t i;
+	std::vector <std::thread> th;
 
 	if ((A.getM() != this->getM()) || (A.getN() != this->getN())) {
 		throw MatrixException(MatrixException::MatrixError::MATRIX_INCOMPATIBLE_ORDER);
 	}
 
 	for (i = 0; i < this->m; ++i) {
-		std::size_t j;
-		for (j = 0; j < this->n; ++j) {
-			(*this)(i, j) -= A(i, j);
-		}
+		// Capture everything by value.
+		th.push_back(std::thread([=]() {
+			register std::size_t j;
+
+			for (j = 0; j < this->n; ++j) {
+				(*this)(i, j) -= A(i, j);
+			}
+		}));
 	}
+	for(std::thread &t : th) {
+		t.join();
+	};
 
 	return *this;
 }
 
 template<typename _Tp> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator*=(const Matrix<_Tp>& A) {
 	Matrix<_Tp> C(this->getM(), A.getN());
-	std::size_t i;
+	register std::size_t i;
+	std::vector <std::thread> th;
 
 	if (A.getM() != this->getN()) {
 		throw MatrixException(MatrixException::MatrixError::MATRIX_INCOMPATIBLE_ORDER);
 	}
 
 	for (i = 0; i < C.getM(); ++i) {
+		// Capture everything by value.
+		th.push_back(std::thread([=, &C]() {
+			register std::size_t j;
+
+			for (j = 0; j < C.getN(); ++j) {
+				std::size_t k;
+				_Tp sum = 0;
+				for (k = 0; k < A.getM(); ++k) {
+					sum += A(k, j) * (*this)(i, k);
+				}
+				C(i, j) = sum;
+			}
+		}));
+	}
+	for(std::thread &t : th) {
+		t.join();
+	};
+
+	/*for (i = 0; i < C.getM(); ++i) {
 		std::size_t j;
 		for (j = 0; j < C.getN(); ++j) {
 			std::size_t k;
@@ -125,7 +162,7 @@ template<typename _Tp> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator*=(const 
 			}
 			C(i, j) = sum;
 		}
-	}
+	}*/
 
 	this->m = C.getM();
 	this->n = C.getN();
@@ -137,37 +174,55 @@ template<typename _Tp> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator*=(const 
 }
 
 template<typename _Tp> template<typename _Scalar> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator*=(const _Scalar& k) {
-	std::size_t i;
-
-	for (i = 0; i < this->getM(); ++i) {
-		std::size_t j;
-		for (j = 0; j < this->getN(); ++j) {
-			using type = typename std::conditional<sizeof(_Scalar) >= sizeof(_Tp), _Scalar, _Tp>::type;
-			type t = static_cast<type>((*this)(i, j));
-			type u = static_cast<type>(k);
-			(*this)(i, j) = static_cast<_Tp>(t*u);
-		}
-	}
-
-	return *this;
-}
-
-template<typename _Tp> template<typename _Scalar> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator/=(const _Scalar& k) {
-	std::size_t i;
+	register std::size_t i;
+	std::vector <std::thread> th;
 
 	if (k == 0) {
 		throw MatrixException(MatrixException::MatrixError::MATRIX_DIVIDE_BY_ZERO);
 	}
 
 	for (i = 0; i < this->getM(); ++i) {
-		std::size_t j;
-		for (j = 0; j < this->getN(); ++j) {
-			using type = typename std::conditional<sizeof(_Scalar) >= sizeof(_Tp), _Scalar, _Tp>::type;
-			type t = static_cast<type>((*this)(i, j));
-			type u = static_cast<type>(k);
-			(*this)(i, j) = static_cast<_Tp>(t / u);
-		}
+		th.push_back(std::thread([=]() {
+			register std::size_t j;
+
+			for (j = 0; j < this->getN(); ++j) {
+				using type = typename std::conditional<sizeof(_Scalar) >= sizeof(_Tp), _Scalar, _Tp>::type;
+				type t = static_cast<type>((*this)(i, j));
+				type u = static_cast<type>(k);
+				(*this)(i, j) = static_cast<_Tp>(t * u);
+			}
+		}));
 	}
+	for(std::thread &t : th) {
+		t.join();
+	};
+
+	return *this;
+}
+
+template<typename _Tp> template<typename _Scalar> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator/=(const _Scalar& k) {
+	register std::size_t i;
+	std::vector <std::thread> th;
+
+	if (k == 0) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_DIVIDE_BY_ZERO);
+	}
+
+	for (i = 0; i < this->getM(); ++i) {
+		th.push_back(std::thread([=]() {
+			register std::size_t j;
+
+			for (j = 0; j < this->getN(); ++j) {
+				using type = typename std::conditional<sizeof(_Scalar) >= sizeof(_Tp), _Scalar, _Tp>::type;
+				type t = static_cast<type>((*this)(i, j));
+				type u = static_cast<type>(k);
+				(*this)(i, j) = static_cast<_Tp>(t / u);
+			}
+		}));
+	}
+	for(std::thread &t : th) {
+		t.join();
+	};
 
 	return *this;
 }
@@ -193,40 +248,50 @@ template<typename _Tp> Matrix<_Tp> MATRIX_CALL Matrix<_Tp> :: operator*(const Ma
 	return C;
 }
 
-template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL operator*(const Matrix<_Tp>& A, const _Dt& k) {
+template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL operator* (const Matrix<_Tp>& A, const _Dt& k) {
 	Matrix<_Dt> C(A.getM(), A.getN());
-	std::size_t i;
+	register std::size_t i;
+	std::vector <std::thread> th;
 
 	for (i = 0; i < A.getM(); ++i) {
-		std::size_t j;
-		for (j = 0; j < A.getN(); ++j) {
-			C(i, j) = static_cast<_Dt>(A(i, j)) * k;
-		}
+		th.push_back(std::thread([=, &C]() {
+			register std::size_t j;
+
+			for (j = 0; j < A.getN(); ++j) {
+				C(i, j) = static_cast<_Dt>(A(i, j)) * k;
+			}
+		}));
 	}
+	for(std::thread &t : th) {
+		t.join();
+	};
 
 	return C;
 }
 
-template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL operator/(const Matrix<_Tp>& A, const _Dt& k) {
+template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL operator/ (const Matrix<_Tp>& A, const _Dt& k) {
 	Matrix<_Dt> C(A.getM(), A.getN());
-	std::size_t i;
-
-	if (k == 0) {
-		throw MatrixException(MatrixException::MatrixError::MATRIX_DIVIDE_BY_ZERO);
-	}
+	register std::size_t i;
+	std::vector <std::thread> th;
 
 	for (i = 0; i < A.getM(); ++i) {
-		std::size_t j;
-		for (j = 0; j < A.getN(); ++j) {
-			C(i, j) = static_cast<_Dt>(A(i, j)) / k;
-		}
+		th.push_back(std::thread([=, &C]() {
+			register std::size_t j;
+
+			for (j = 0; j < A.getN(); ++j) {
+				C(i, j) = static_cast<_Dt>(A(i, j)) / k;
+			}
+		}));
 	}
+	for(std::thread &t : th) {
+		t.join();
+	};
 
 	return C;
 }
 
 template<typename _Tp> MATRIX_API bool MATRIX_CALL operator==(const Matrix<_Tp>& A, const Matrix<_Tp>& B) {
-	bool res;
+	volatile bool res;
 
 	if ((A.getM() == 0 || B.getM() == 0) || (A.getN() == 0 || B.getN() == 0)) {
 		throw MatrixException(MatrixException::MatrixError::MATRIX_NOT_INITIALIZED);
@@ -234,20 +299,27 @@ template<typename _Tp> MATRIX_API bool MATRIX_CALL operator==(const Matrix<_Tp>&
 
 	res = true;
 	if ((A.getM() == B.getM()) && (A.getN() == B.getN())) {
-		std::size_t i;
+		register std::size_t i;
+		std::vector <std::thread> th;
 
 		for (i = 0; i < A.getM(); ++i) {
-			std::size_t j;
-			for (j = 0; j < A.getN(); ++j) {
-				res = (A(i, j) == B(i, j));
-				if (res == false) {
-					break;
+			th.push_back(std::thread([=, &res]() {
+				register std::size_t j;
+
+				for (j = 0; j < A.getN(); ++j) {
+					res = ((A(i, j) == B(i, j))? res: false); // Race eliminated...
+					if (res == false) {
+						break;
+					}
 				}
-			}
+			}));
 			if (res == false) {
 				break;
 			}
 		}
+		for(std::thread &t : th) {
+			t.join();
+		};
 	}
 	else {
 		res = false;
@@ -268,18 +340,25 @@ template<typename _Tp> MATRIX_API bool MATRIX_CALL operator!=(const Matrix<_Tp>&
 /*--------------------------- Matrix Functions --------------------------*/
 template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL transpose(const Matrix<_Tp>& A) {
 	Matrix<_Tp> C(A.getN(), A.getM());
-	std::size_t i;
+	register std::size_t i;
+	std::vector <std::thread> th;
 
 	if (A.getM() == 0 || A.getN() == 0) {
 		throw MatrixException(MatrixException::MatrixError::MATRIX_NOT_INITIALIZED);
 	}
 
 	for (i = 0; i < A.getN(); ++i) {
-		std::size_t j;
-		for (j = 0; j < A.getM(); ++j) {
-			C(i, j) = A(j, i);
-		}
+		th.push_back(std::thread([=, &C]() {
+			register std::size_t j;
+
+			for (j = 0; j < A.getM(); ++j) {
+				C(i, j) = A(j, i);
+			}
+		}));
 	}
+	for(std::thread &t : th) {
+		t.join();
+	};
 
 	return C;
 }
@@ -441,6 +520,8 @@ template MATRIX_API Matrix<float> MATRIX_CALL adjoint(const Matrix<float>&);
 template MATRIX_API Matrix<float> MATRIX_CALL inverse(const Matrix<float>&);
 template MATRIX_API Matrix<double> MATRIX_CALL operator*(const Matrix<float>&, const double&);
 template MATRIX_API Matrix<double> MATRIX_CALL operator/(const Matrix<float>&, const double&);
+template Matrix<double>& MATRIX_CALL Matrix<double> :: operator*=(const float&);
+template Matrix<double>& MATRIX_CALL Matrix<double> :: operator/=(const float&);
 template MATRIX_API bool MATRIX_CALL operator==(const Matrix<float>&, const Matrix<float>&);
 template MATRIX_API bool MATRIX_CALL operator!=(const Matrix<float>&, const Matrix<float>&);
 
