@@ -20,14 +20,38 @@ template<typename _Tp> void determinant_matrix();
 
 /*---------------------------- Main Routine ---------------------------*/
 int main() {
-	std::vector< std::string > menu = {
-		"Add Matrices",
-		"Multiply Matrices",
-		"Matrix Transpose",
-		"Matrix Adjoint",
-		"Matrix Inverse",
-		"Determinant"
-	};
+
+	//{
+	//	Matrix<double> A;
+	//	Matrix<double> C;
+
+	//	/* Read details for Matrix A */
+	//	std::cout << "\nEnter details for Matrix A :-\n";
+	//	A = read_matrix<double>();
+
+	//	std::cout << "\nMatrix A :-";
+	//	print_matrix<double>(A);
+
+	//	/* Perform Crout Decomposition */
+	//	C = lu_decompose(A);
+
+	//	/* Print out result */
+	//	std::cout << "\nCrout Decomposition :-";
+	//	print_matrix<double>(C);
+	//}
+
+
+
+
+	std::vector< std::string > menu = std::vector< std::string >(0);
+
+	// Add menu entities...
+	menu.push_back("Add Matrices");
+	menu.push_back("Multiply Matrices");
+	menu.push_back("Matrix Transpose");
+	menu.push_back("Matrix Adjoint");
+	menu.push_back("Matrix Inverse");
+	menu.push_back("Determinant");
 
 	std::vector< std::function<void()> > menuAction =
 		std::vector<std::function<void()> >(0);

@@ -363,7 +363,78 @@ template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL transpose(const Matrix
 	return C;
 }
 
+
+template<typename _Tp> static Matrix<_Tp> MATRIX_CALL pivot(Matrix<_Tp>& A) {
+	Matrix<_Tp> C(A);
+	std::size_t i;
+	std::size_t n;
+
+	if (A.getM() == 0 || A.getN() == 0) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_NOT_INITIALIZED);
+	}
+
+	n = A.getM();
+	for (i = 0; i < n; ++i) {
+	}
+
+	return C;
+}
+
+
 template<typename _Tp> MATRIX_API _Tp MATRIX_CALL determinant(const Matrix<_Tp>& A) {
+	std::size_t i, j, k;
+	std::size_t n;
+	Matrix<_Tp> L(A.getM(), A.getN());
+	Matrix<_Tp> U(A.getM(), A.getN());
+	_Tp det;
+
+	if (A.getM() == 0 || A.getN() == 0) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_NOT_INITIALIZED);
+	}
+	else if (A.getM() != A.getN()) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_NOT_SQUARE);
+	}
+
+	n = A.getM();
+	for (i = 0; i < n; ++i) {
+		for (j = 0; j < n; ++j) {
+			if (j < i) {
+				L(j, i) = 0;
+			} else {
+				L(j, i) = A(j, i);
+				for (k = 0; k < i; k++) {
+					L(j, i) = L(j, i) - L(j, k) * U(k, i);
+				}
+			}
+		}
+		for (j = 0; j < n; ++j) {
+			if (j < i) {
+				U(i, j) = 0;
+			}
+			else {
+				if (j == i) {
+					U(i, j) = 1;
+				}
+				else {
+					U(i, j) = A(i, j) / L(i, i);
+					for (k = 0; k < i; ++k) {
+						U(i, j) = U(i, j) - ((L(i, k) * U(k, j)) / L(i, i));
+					}
+				}
+			}
+		}
+	}
+
+	det = 1;
+	for (i = 0; i < n; ++i) {
+		det *= L(i, i) *  U(i, i);
+	}
+
+	return det;
+}
+
+
+/*template<typename _Tp> MATRIX_API _Tp MATRIX_CALL determinant(const Matrix<_Tp>& A) {
 	_Tp det;
 	std::size_t j, j1;
 	std::size_t n;
@@ -378,7 +449,7 @@ template<typename _Tp> MATRIX_API _Tp MATRIX_CALL determinant(const Matrix<_Tp>&
 
 	n = A.getM();
 
-	if (n < 1) { /* Error */
+	if (n < 1) { // Error
 		return 0;
 	}
 	else if (n == 1) {
@@ -405,7 +476,7 @@ template<typename _Tp> MATRIX_API _Tp MATRIX_CALL determinant(const Matrix<_Tp>&
 				}
 			}
 
-			/* Recursively calculate determinant of sub-matrix */
+			// Recursively calculate determinant of sub-matrix
 			_Tp ptr = determinant<_Tp>(C);
 
 			det += sign * A(0, j1) * ptr;
@@ -414,7 +485,7 @@ template<typename _Tp> MATRIX_API _Tp MATRIX_CALL determinant(const Matrix<_Tp>&
 	}
 
 	return det;
-}
+}*/
 
 template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL cofactor(const Matrix<_Tp>& A) {
 	Matrix<_Tp> B(A.getM(), A.getN());
@@ -512,28 +583,31 @@ template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL inverse(
 /*-----------------------------------------------------------------------*/
 
 /* Specializations */
-template class MATRIX_API Matrix<float>;
-template MATRIX_API float MATRIX_CALL determinant(const Matrix<float>&);
-template MATRIX_API Matrix<float> MATRIX_CALL transpose(const Matrix<float>&);
-template MATRIX_API Matrix<float> MATRIX_CALL cofactor(const Matrix<float>&);
-template MATRIX_API Matrix<float> MATRIX_CALL adjoint(const Matrix<float>&);
-template MATRIX_API Matrix<float> MATRIX_CALL inverse(const Matrix<float>&);
-template MATRIX_API Matrix<double> MATRIX_CALL operator*(const Matrix<float>&, const double&);
-template MATRIX_API Matrix<double> MATRIX_CALL operator/(const Matrix<float>&, const double&);
-template Matrix<double>& MATRIX_CALL Matrix<double> :: operator*=(const float&);
-template Matrix<double>& MATRIX_CALL Matrix<double> :: operator/=(const float&);
-template MATRIX_API bool MATRIX_CALL operator==(const Matrix<float>&, const Matrix<float>&);
-template MATRIX_API bool MATRIX_CALL operator!=(const Matrix<float>&, const Matrix<float>&);
+#define SPEC_DECL_A(_A) \
+	template class MATRIX_API Matrix<_A>; \
+	template MATRIX_API _A MATRIX_CALL determinant(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL transpose(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL cofactor(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL adjoint(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL inverse(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL operator*(const Matrix<_A>&, const _A&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL operator/(const Matrix<_A>&, const _A&); \
+	template Matrix<_A>& MATRIX_CALL Matrix<_A> :: operator*=(const _A&); \
+	template Matrix<_A>& MATRIX_CALL Matrix<_A> :: operator/=(const _A&); \
+	template MATRIX_API bool MATRIX_CALL operator==(const Matrix<_A>&, const Matrix<_A>&); \
+	template MATRIX_API bool MATRIX_CALL operator!=(const Matrix<_A>&, const Matrix<_A>&);
 
-template class MATRIX_API Matrix<double>;
-template MATRIX_API double MATRIX_CALL determinant(const Matrix<double>&);
-template MATRIX_API Matrix<double> MATRIX_CALL transpose(const Matrix<double>&);
-template MATRIX_API Matrix<double> MATRIX_CALL cofactor(const Matrix<double>&);
-template MATRIX_API Matrix<double> MATRIX_CALL adjoint(const Matrix<double>&);
-template MATRIX_API Matrix<double> MATRIX_CALL inverse(const Matrix<double>&);
-template MATRIX_API bool MATRIX_CALL operator==(const Matrix<double>&, const Matrix<double>&);
-template MATRIX_API bool MATRIX_CALL operator!=(const Matrix<double>&, const Matrix<double>&);
 
-template MATRIX_API Matrix<double> MATRIX_CALL inverse(const Matrix<float>&);
-template MATRIX_API Matrix<float> MATRIX_CALL inverse(const Matrix<double>&);
+#define MATRIX_SPECIALIZATION(_A, _B) \
+	static_assert (sizeof(_A) <= sizeof(_B), "Expects (_A <= _B) ..."); \
+	SPEC_DECL_A(_A) \
+	SPEC_DECL_A(_B) \
+	template Matrix<_B>& MATRIX_CALL Matrix<_B> :: operator*=(const _A&); \
+	template Matrix<_B>& MATRIX_CALL Matrix<_B> :: operator/=(const _A&); \
+	template MATRIX_API Matrix<_B> MATRIX_CALL inverse(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL inverse(const Matrix<_B>&);
+
+
+MATRIX_SPECIALIZATION(float, double)
+
 /* End of Specializations */

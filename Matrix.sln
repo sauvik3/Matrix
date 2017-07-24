@@ -1,0 +1,54 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Matrix", "Matrix\Matrix.vcxproj", "{33B2A319-D220-41C2-83F9-79CFD6B7C318}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Main", "Main\Main.vcxproj", "{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318} = {33B2A319-D220-41C2-83F9-79CFD6B7C318}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bench", "Bench\Bench.vcxproj", "{7B0D2299-C142-47FE-BB00-E091BB69EBBA}"
+	ProjectSection(ProjectDependencies) = postProject
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318} = {33B2A319-D220-41C2-83F9-79CFD6B7C318}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Dynamic_DLL|x64 = Dynamic_DLL|x64
+		Dynamic_DLL|x86 = Dynamic_DLL|x86
+		Static_LIB|x64 = Static_LIB|x64
+		Static_LIB|x86 = Static_LIB|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Dynamic_DLL|x64.ActiveCfg = Dynamic_DLL|x64
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Dynamic_DLL|x64.Build.0 = Dynamic_DLL|x64
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Dynamic_DLL|x86.ActiveCfg = Dynamic_DLL|Win32
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Dynamic_DLL|x86.Build.0 = Dynamic_DLL|Win32
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Static_LIB|x64.ActiveCfg = Static_LIB|x64
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Static_LIB|x64.Build.0 = Static_LIB|x64
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Static_LIB|x86.ActiveCfg = Static_LIB|Win32
+		{33B2A319-D220-41C2-83F9-79CFD6B7C318}.Static_LIB|x86.Build.0 = Static_LIB|Win32
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Dynamic_DLL|x64.ActiveCfg = Dynamic_DLL|x64
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Dynamic_DLL|x64.Build.0 = Dynamic_DLL|x64
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Dynamic_DLL|x86.ActiveCfg = Dynamic_DLL|Win32
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Dynamic_DLL|x86.Build.0 = Dynamic_DLL|Win32
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Static_LIB|x64.ActiveCfg = Static_LIB|x64
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Static_LIB|x64.Build.0 = Static_LIB|x64
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Static_LIB|x86.ActiveCfg = Static_LIB|Win32
+		{3D04BED0-F8D2-46B0-B4B4-FA322C375BB8}.Static_LIB|x86.Build.0 = Static_LIB|Win32
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Dynamic_DLL|x64.ActiveCfg = Dynamic_DLL|x64
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Dynamic_DLL|x64.Build.0 = Dynamic_DLL|x64
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Dynamic_DLL|x86.ActiveCfg = Dynamic_DLL|Win32
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Dynamic_DLL|x86.Build.0 = Dynamic_DLL|Win32
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Static_LIB|x64.ActiveCfg = Static_LIB|x64
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Static_LIB|x64.Build.0 = Static_LIB|x64
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Static_LIB|x86.ActiveCfg = Static_LIB|Win32
+		{7B0D2299-C142-47FE-BB00-E091BB69EBBA}.Static_LIB|x86.Build.0 = Static_LIB|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
