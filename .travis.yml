@@ -76,9 +76,9 @@ install:
   - CXX_FLAGS="${CXX_FLAGS} -std=c++${CPP}"
 
   # Build examples
-  - cd example
+  - cd Matrix
   - if [ "$BUILD_TYPE" == "Release" ]; then make rebuild CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix; fi
-  - if [ "$BUILD_TYPE" == "Debug" ]; then make rebuild debug CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=example-debug; fi
+  - if [ "$BUILD_TYPE" == "Debug" ]; then make rebuild debug CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix-debug; fi
   
 
 script:
