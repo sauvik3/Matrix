@@ -77,14 +77,14 @@ install:
 
   # Build examples
   - cd Matrix
-  - if [ "$BUILD_TYPE" == "Release" ]; then make rebuild CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix; fi
-  - if [ "$BUILD_TYPE" == "Debug" ]; then make rebuild debug CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix-debug; fi
+  - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix; fi
+  - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix-debug; fi
   
 
 script:
   - ./"${BIN}"
   - valgrind --trace-children=yes --leak-check=full ./"${BIN}"
-  - cd $CHECKOUT_PATH/tests; make rebuild; ./tests
+  - cd $CHECKOUT_PATH/tests; make all; ./tests
 
 notifications:
   email: false
