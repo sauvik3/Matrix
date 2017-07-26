@@ -5,12 +5,12 @@ SRCTREE :=	.
 CXX ?=		g++
 AR ?=		ar
 
-SRCDIR :=	$(SRCTREE)\SRC
-OUTDIR :=	$(SRCTREE)\BIN
-OBJDIR :=	$(SRCTREE)\OBJ
-RESDIR :=	$(SRCTREE)\RC
-LIBDIR :=	$(SRCTREE)\LIB
-INCDIR :=	$(SRCTREE)\INCLUDE
+SRCDIR :=	$(SRCTREE)\src
+OUTDIR :=	$(SRCTREE)\bin
+OBJDIR :=	$(SRCTREE)\obj
+RESDIR :=	$(SRCTREE)\rc
+LIBDIR :=	$(SRCTREE)\lib
+INCDIR :=	$(SRCTREE)\include
 
 CFLAGS :=	-O3 -std=c++11 -fpic -Wall -pedantic
 CFLAGS_EXTRA :=
