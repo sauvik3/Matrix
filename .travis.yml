@@ -82,9 +82,9 @@ install:
   
 
 script:
-  - ./"${BIN}"
-  - valgrind --trace-children=yes --leak-check=full ./"${BIN}"
-  - cd $CHECKOUT_PATH/tests; make all; ./tests
+  # - ./"${BIN}"
+  # - valgrind --trace-children=yes --leak-check=full ./"${BIN}"
+  - make all;
 
 notifications:
   email: false
