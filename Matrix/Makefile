@@ -15,13 +15,18 @@ CFLAGS :=	-O3 -std=c++11 -fpic -Wall -pedantic
 CFLAGS_EXTRA :=
 
 
+dirs:
+	@if [ ! -d $(OUTDIR) ]; then mkdir -p $(notdir $(OUTDIR)); fi
+	@if [ ! -d $(OBJDIR) ]; then mkdir -p $(notdir $(OBJDIR)); fi
+	@if [ ! -d $(LIBDIR) ]; then mkdir -p $(notdir $(LIBDIR)); fi
+
 all: static
 
 dll: CFLAGS_EXTRA := -DMATRIX_USE_DLL -DDLL_EXPORTS
-dll: matrix.so
+dll: dirs matrix.so
 
 static: CFLAGS_EXTRA :=
-static: matrix.a
+static: dirs matrix.a
 
 matrix.so: matrix_exception.o matrix.o
 
