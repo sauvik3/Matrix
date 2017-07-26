@@ -1,11 +1,9 @@
 # This Makefile will build the Matrix Library.
 
-TOOLCHAIN :=	C:\MinGW
-SRCTREE :=	C:\Users\admin\Desktop\matrix_cpp\Matrix\Matrix
+SRCTREE :=	.
 
-CC :=		$(TOOLCHAIN)\bin\g++.exe
-AR :=		$(TOOLCHAIN)\bin\ar.exe
-WINDRES :=	$(TOOLCHAIN)\bin\windres.exe
+CXX ?=		g++
+AR ?=		ar
 
 SRCDIR :=	$(SRCTREE)\SRC
 OUTDIR :=	$(SRCTREE)\BIN
@@ -14,37 +12,33 @@ RESDIR :=	$(SRCTREE)\RC
 LIBDIR :=	$(SRCTREE)\LIB
 INCDIR :=	$(SRCTREE)\INCLUDE
 
-CFLAGS :=	-O3 -std=c++11 -Wall
+CFLAGS :=	-O3 -std=c++11 -fpic -Wall -pedantic
 CFLAGS_EXTRA :=
 
 
 all: static
 
 dll: CFLAGS_EXTRA := -DMATRIX_USE_DLL -DDLL_EXPORTS
-dll: matrix.dll
+dll: matrix.so
 
 static: CFLAGS_EXTRA :=
-static: matrix.lib
+static: matrix.a
 
-matrix.dll: matrix_exception.o matrix.o resource.o
+matrix.so: matrix_exception.o matrix.o
 
-matrix.lib: matrix_exception.o matrix.o
+matrix.a: matrix_exception.o matrix.o
 
 %.o: $(SRCDIR)\%.cpp
-	$(CC) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)\$@ $<
+	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)\$@ $<
 
-%.dll: 
-	$(CC) -shared -s -o $(OUTDIR)\$@ $(patsubst %,$(OBJDIR)\\%,$^) -Wl,--subsystem,windows,--output-def,$(OUTDIR)\$*.def,--out-implib,$(OUTDIR)\$*.lib
+%.so: 
+	$(CXX) -shared -s -o $(OUTDIR)\$@ $(patsubst %,$(OBJDIR)\\%,$^)
 
-%.lib: 
+%.a: 
 	$(AR) -ru $(OUTDIR)\$@ $(patsubst %,$(OBJDIR)\\%,$^)
 
-resource.o: $(RESDIR)\matrix.rc
-	$(WINDRES) -i $< -o $(OBJDIR)\$@
 
 clean::
 	-rm $(OBJDIR)\matrix.o
-	-rm $(OBJDIR)\resource.o
-	-rm $(OUTDIR)\matrix.def
-	-rm $(OUTDIR)\matrix.lib
-	-rm $(OUTDIR)\matrix.dll
+	-rm $(OUTDIR)\matrix.a
+	-rm $(OUTDIR)\matrix.so
