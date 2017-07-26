@@ -5,12 +5,11 @@ SRCTREE :=	.
 CXX ?=		g++
 AR ?=		ar
 
-SRCDIR :=	$(SRCTREE)\src
-OUTDIR :=	$(SRCTREE)\bin
-OBJDIR :=	$(SRCTREE)\obj
-RESDIR :=	$(SRCTREE)\rc
-LIBDIR :=	$(SRCTREE)\lib
-INCDIR :=	$(SRCTREE)\include
+SRCDIR :=	$(SRCTREE)/src
+OUTDIR :=	$(SRCTREE)/bin
+OBJDIR :=	$(SRCTREE)/obj
+LIBDIR :=	$(SRCTREE)/lib
+INCDIR :=	$(SRCTREE)/include
 
 CFLAGS :=	-O3 -std=c++11 -fpic -Wall -pedantic
 CFLAGS_EXTRA :=
@@ -28,17 +27,17 @@ matrix.so: matrix_exception.o matrix.o
 
 matrix.a: matrix_exception.o matrix.o
 
-%.o: $(SRCDIR)\%.cpp
-	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)\$@ $<
+%.o: $(SRCDIR)/%.cpp
+	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)/$@ $<
 
 %.so: 
-	$(CXX) -shared -s -o $(OUTDIR)\$@ $(patsubst %,$(OBJDIR)\\%,$^)
+	$(CXX) -shared -s -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^)
 
 %.a: 
-	$(AR) -ru $(OUTDIR)\$@ $(patsubst %,$(OBJDIR)\\%,$^)
+	$(AR) -ru $(LIBDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^)
 
 
 clean::
-	-rm $(OBJDIR)\matrix.o
-	-rm $(OUTDIR)\matrix.a
-	-rm $(OUTDIR)\matrix.so
+	-rm $(OBJDIR)/matrix.o
+	-rm $(LIBDIR)/matrix.a
+	-rm $(OUTDIR)/matrix.so
