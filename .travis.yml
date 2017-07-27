@@ -63,7 +63,7 @@ install:
   # Workaround for valgrind bug: https://bugs.kde.org/show_bug.cgi?id=326469.
   # It is fixed in valgrind 3.10 so this won't be necessary if someone
   # replaces the current valgrind (3.7) with valgrind-3.10
-  - sed -i 's/march=native/msse4.2/' Matrix/Makefile
+  - sed -i 's/march=native/msse4.2/' Makefile
 
   - if [ ! -d build ]; then mkdir build; fi
   - export CXX_FLAGS="-I${CHECKOUT_PATH}/include"
@@ -76,9 +76,8 @@ install:
   - CXX_FLAGS="${CXX_FLAGS} -std=c++${CPP}"
 
   # Build examples
-  - cd Matrix
-  - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix; fi
-  - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Matrix-debug; fi
+  - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; fi
+  - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; fi
   
 
 script:
