@@ -1,39 +1,43 @@
 # This Makefile will build an application using the DLL.
 
-TOOLCHAIN :=	C:\MinGW
-SRCTREE :=	C:\Users\admin\Desktop\matrix_cpp\Matrix\Main
+SRCTREE :=	./
 
-CC :=		$(TOOLCHAIN)\bin\g++.exe
-WINDRES :=	$(TOOLCHAIN)\bin\windres.exe
+CXX ?=		g++
+AR ?=		ar
 
-SRCDIR :=	$(SRCTREE)\SRC
-OUTDIR :=	$(SRCTREE)\BIN
-OBJDIR :=	$(SRCTREE)\OBJ
-RESDIR :=	$(SRCTREE)\RC
-LIBDIR :=	$(SRCTREE)\LIB
-INCDIR :=	$(SRCTREE)\INCLUDE
+SRCDIR :=	$(SRCTREE)src
+OUTDIR :=	$(SRCTREE)bin
+OBJDIR :=	$(SRCTREE)obj
+LIBDIR :=	$(SRCTREE)lib
+INCDIR :=	$(SRCTREE)include
 
-CFLAGS :=	-O3 -std=c++11 -Wall
+CFLAGS :=	-O3 -std=c++11 -Wall -pedantic
 CFLAGS_EXTRA :=
+
+
+dirs:
+	@if [ ! -d $(OUTDIR) ]; then mkdir -p $(notdir $(OUTDIR)); fi
+	@if [ ! -d $(OBJDIR) ]; then mkdir -p $(notdir $(OBJDIR)); fi
+	@if [ ! -d $(LIBDIR) ]; then mkdir -p $(notdir $(LIBDIR)); fi
 
 all: use-static
 
 use-shared: CFLAGS_EXTRA := -DMATRIX_USE_DLL -DDLL_IMPORTS
-use-shared: main.exe
+use-shared: LFLAGS := -L$(OUTDIR) -lMatrix
+use-shared: dirs main
 
 use-static: CFLAGS_EXTRA :=
-use-static: main.exe
+use-static: LFLAGS := $(LIBDIR)/matrix.a
+use-static: dirs main
 
-%.o: $(SRCDIR)\%.cpp
-	$(CC) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)\$@ $<
+%.o: $(SRCDIR)/%.cpp
+	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)/$@ $<
 
-resource.o: $(RESDIR)\main.rc
-	$(WINDRES) -i $< -o $(OBJDIR)\$@
-
-main.exe: main.o resource.o
-	$(CC) -o $(OUTDIR)\$@ $(patsubst %,$(OBJDIR)\\%,$^) $(LIBDIR)\matrix.lib -s -Wl,-subsystem,console
+main: main.o
+	$(CXX) -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^) $(LFLAGS) -s -Wl,-subsystem,console
 
 clean:
-	-rm $(OBJDIR)\main.o
-	-rm $(OBJDIR)\resource.o
-	-rm $(OUTDIR)\main.exe
+	-rm $(OBJDIR)/main.o
+	-rm $(OUTDIR)/main
+	-rm $(LIBDIR)/matrix.a
+	-rm $(OUTDIR)/libMatrix.so

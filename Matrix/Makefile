@@ -1,17 +1,17 @@
 # This Makefile will build the Matrix Library.
 
-SRCTREE :=	.
+SRCTREE :=	./
 
 CXX ?=		g++
 AR ?=		ar
 
-SRCDIR :=	$(SRCTREE)/src
-OUTDIR :=	$(SRCTREE)/bin
-OBJDIR :=	$(SRCTREE)/obj
-LIBDIR :=	$(SRCTREE)/lib
-INCDIR :=	$(SRCTREE)/include
+SRCDIR :=	$(SRCTREE)src
+OUTDIR :=	$(SRCTREE)bin
+OBJDIR :=	$(SRCTREE)obj
+LIBDIR :=	$(SRCTREE)lib
+INCDIR :=	$(SRCTREE)include
 
-CFLAGS :=	-O3 -std=c++11 -fpic -Wall -pedantic
+CFLAGS :=	-O3 -std=c++11 -Wall -pedantic
 CFLAGS_EXTRA :=
 
 
@@ -22,13 +22,13 @@ dirs:
 
 all: static
 
-dll: CFLAGS_EXTRA := -DMATRIX_USE_DLL -DDLL_EXPORTS
-dll: dirs matrix.so
+dll: CFLAGS_EXTRA := -fpic -DMATRIX_USE_DLL -DDLL_EXPORTS
+dll: dirs libMatrix.so
 
 static: CFLAGS_EXTRA :=
 static: dirs matrix.a
 
-matrix.so: matrix_exception.o matrix.o
+libMatrix.so: matrix_exception.o matrix.o
 
 matrix.a: matrix_exception.o matrix.o
 
@@ -45,4 +45,4 @@ matrix.a: matrix_exception.o matrix.o
 clean::
 	-rm $(OBJDIR)/matrix.o
 	-rm $(LIBDIR)/matrix.a
-	-rm $(OUTDIR)/matrix.so
+	-rm $(OUTDIR)/libMatrix.so
