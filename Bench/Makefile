@@ -34,7 +34,7 @@ use-static: dirs main
 	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)/$@ $<
 
 main: main.o
-	$(CXX) -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^) $(LFLAGS) -s -Wl,-subsystem,console
+	$(CXX) -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^) $(LFLAGS) -s
 
 clean:
 	-rm $(OBJDIR)/main.o
