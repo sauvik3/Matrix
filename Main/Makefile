@@ -28,7 +28,7 @@ use-shared: LFLAGS := -L$(SRCTREE) -l:$(OUTDIR)/Matrix.so
 use-shared: dirs main
 
 use-static: CFLAGS_EXTRA :=
-use-static: LFLAGS := $(LIBDIR)/matrix.a
+use-static: LFLAGS := $(LIBDIR)/Matrix.a
 use-static: dirs main
 
 %.o: $(SRCDIR)/%.cpp
@@ -41,5 +41,5 @@ clean:
 	-rm $(OBJDIR)/main.o
 	-rm $(OBJDIR)/matrix_io.o
 	-rm $(OUTDIR)/main
-	-rm $(LIBDIR)/matrix.a
+	-rm $(LIBDIR)/Matrix.a
 	-rm $(OUTDIR)/Matrix.so

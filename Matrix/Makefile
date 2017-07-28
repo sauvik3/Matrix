@@ -26,11 +26,11 @@ dll: CFLAGS_EXTRA := -fpic -DMATRIX_USE_DLL -DDLL_EXPORTS
 dll: dirs Matrix.so
 
 static: CFLAGS_EXTRA :=
-static: dirs matrix.a
+static: dirs Matrix.a
 
 Matrix.so: matrix_exception.o matrix.o
 
-matrix.a: matrix_exception.o matrix.o
+Matrix.a: matrix_exception.o matrix.o
 
 %.o: $(SRCDIR)/%.cpp
 	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)/$@ $<
@@ -44,5 +44,5 @@ matrix.a: matrix_exception.o matrix.o
 
 clean::
 	-rm $(OBJDIR)/matrix.o
-	-rm $(LIBDIR)/matrix.a
+	-rm $(LIBDIR)/Matrix.a
 	-rm $(OUTDIR)/Matrix.so

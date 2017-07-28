@@ -8,7 +8,6 @@ Matrix-static:
 
 Bench-static:	Matrix-static
 		mkdir -p Bench/lib
-		ls -lAR
 		cp -p Matrix/lib/Matrix.a -t Bench/lib
 		make -C Bench use-static
 
