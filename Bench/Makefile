@@ -40,4 +40,4 @@ clean:
 	-rm $(OBJDIR)/main.o
 	-rm $(OUTDIR)/main
 	-rm $(LIBDIR)/matrix.a
-	-rm $(OUTDIR)/libMatrix.so
+	-rm $(OUTDIR)/Matrix.so
