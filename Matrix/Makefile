@@ -23,12 +23,12 @@ dirs:
 all: static
 
 dll: CFLAGS_EXTRA := -fpic -DMATRIX_USE_DLL -DDLL_EXPORTS
-dll: dirs libMatrix.so
+dll: dirs Matrix.so
 
 static: CFLAGS_EXTRA :=
 static: dirs matrix.a
 
-libMatrix.so: matrix_exception.o matrix.o
+Matrix.so: matrix_exception.o matrix.o
 
 matrix.a: matrix_exception.o matrix.o
 
@@ -45,4 +45,4 @@ matrix.a: matrix_exception.o matrix.o
 clean::
 	-rm $(OBJDIR)/matrix.o
 	-rm $(LIBDIR)/matrix.a
-	-rm $(OUTDIR)/libMatrix.so
+	-rm $(OUTDIR)/Matrix.so

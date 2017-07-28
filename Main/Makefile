@@ -24,7 +24,7 @@ dirs:
 all: use-static
 
 use-shared: CFLAGS_EXTRA := -DMATRIX_USE_DLL -DDLL_IMPORTS
-use-shared: LFLAGS := -L$(OUTDIR) -lMatrix
+use-shared: LFLAGS := -L$(SRCTREE) -l:$(OUTDIR)/Matrix.so
 use-shared: dirs main
 
 use-static: CFLAGS_EXTRA :=
@@ -42,4 +42,4 @@ clean:
 	-rm $(OBJDIR)/matrix_io.o
 	-rm $(OUTDIR)/main
 	-rm $(LIBDIR)/matrix.a
-	-rm $(OUTDIR)/libMatrix.so
+	-rm $(OUTDIR)/Matrix.so
