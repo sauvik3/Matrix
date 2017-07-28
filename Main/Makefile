@@ -35,7 +35,7 @@ use-static: dirs main
 	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)/$@ $<
 
 main: matrix_io.o main.o
-	$(CXX) -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^) $(LFLAGS) -s
+	$(CXX) -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^) $(LFLAGS) -s -lpthread
 
 clean:
 	-rm $(OBJDIR)/main.o
