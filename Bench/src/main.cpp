@@ -10,22 +10,22 @@
 #include "matrix.h"
 #include "matrix_exception.h"
 
-#define BEN_ORDER 1000L
+#define BEN_ORDER 15L
 
 /*---------------------------- Benchmark ------------------------------*/
 class Timer {
 public:
-	Timer() : beg_(clock_::now()) {}
-	void reset() { beg_ = clock_::now(); }
+	Timer() : _beg(clock_::now()) {}
+	void reset() { _beg = clock_::now(); }
 	double elapsed() const {
 		return std::chrono::duration_cast<second_>
-			(clock_::now() - beg_).count();
+			(clock_::now() - _beg).count();
 	}
 
 private:
 	typedef std::chrono::high_resolution_clock clock_;
 	typedef std::chrono::duration<double, std::ratio<1> > second_;
-	std::chrono::time_point<clock_> beg_;
+	std::chrono::time_point<clock_> _beg;
 };
 
 template<typename _Tp> Matrix<_Tp> fill_matrix(const size_t m, const size_t n) {
@@ -66,23 +66,26 @@ template<typename _Tp> double determinant_matrix();
 
 /*---------------------------- Main Routine ---------------------------*/
 int main() {
-	std::vector< std::string > menu = {
-		"Matrix Addition",
-		"Matrix Multiplication"/*,
-		"Matrix Transpose",
-		"Matrix Adjoint",
-		"Matrix Inverse",
-		"Determinant"*/
-	};
+	std::vector< std::string > menu = std::vector< std::string >(0);
+
+	// Add entities...
+	menu.push_back("Add Matrices");
+	menu.push_back("Multiply Matrices");
+	menu.push_back("Matrix Transpose");
+	menu.push_back("Matrix Adjoint");
+	menu.push_back("Matrix Inverse");
+	menu.push_back("Determinant");
 
 	std::vector< std::function<double()> > menuAction =
 		std::vector<std::function<double()> >(0);
+
+	// Add respective callbacks...
 	menuAction.push_back(add_matrix<double>);
 	menuAction.push_back(multiply_matrix<double>);
-	/*menuAction.push_back(transpose_matrix<double>);
+	menuAction.push_back(transpose_matrix<double>);
 	menuAction.push_back(adjoint_matrix<double>);
 	menuAction.push_back(inverse_matrix<double, float>);
-	menuAction.push_back(determinant_matrix<float>);*/
+	menuAction.push_back(determinant_matrix<float>);
 
 	size_t menuCount = menu.size();
 
@@ -106,16 +109,6 @@ int main() {
 			}
 		}
 	}
-
-	/*Matrix<float> A;
-	Matrix<double> B;
-	Matrix<float> C;
-	A = fill_matrix<float>(BEN_ORDER, BEN_ORDER-10);
-	B = fill_matrix<double>(BEN_ORDER, BEN_ORDER-10);
-	C = fill_matrix<float>(BEN_ORDER, BEN_ORDER-10);
-	B *= 5.0f;
-	std::cout << "\nResult : " << (A==C);
-	B = A * 3.0;*/
 
 	return 0;
 }
