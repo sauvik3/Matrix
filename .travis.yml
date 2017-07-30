@@ -76,13 +76,13 @@ install:
   - CXX_FLAGS="${CXX_FLAGS} -std=c++${CPP}"
 
   # Build examples
-  - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; fi
-  - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; fi
+  - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
+  - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
   
 
 script:
-  # - ./"${BIN}"
-  # - valgrind --trace-children=yes --leak-check=full ./"${BIN}"
+  - ./"${BIN}"
+  - valgrind --trace-children=yes --leak-check=full ./"${BIN}"
   - make all;
 
 notifications:
