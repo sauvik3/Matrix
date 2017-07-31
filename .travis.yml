@@ -82,7 +82,7 @@ install:
 
 script:
   - ./"${BIN}"
-  - valgrind --trace-children=yes --leak-check=full ./"${BIN}"
+  - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./"${BIN}"
   - make all;
 
 notifications:
