@@ -22,11 +22,11 @@ dirs:
 
 all: use-static
 
-use-shared: CFLAGS_EXTRA := -DMATRIX_USE_DLL -DDLL_IMPORTS
+use-shared: CFLAGS_EXTRA := -pthread -DMATRIX_USE_DLL -DDLL_IMPORTS
 use-shared: LFLAGS := -L$(SRCTREE) -l:$(OUTDIR)/Matrix.so
 use-shared: dirs main
 
-use-static: CFLAGS_EXTRA :=
+use-static: CFLAGS_EXTRA := -pthread
 use-static: LFLAGS := $(LIBDIR)/Matrix.a
 use-static: dirs main
 
@@ -34,7 +34,7 @@ use-static: dirs main
 	$(CXX) -c $(CFLAGS) -I $(INCDIR) $(CFLAGS_EXTRA) -o $(OBJDIR)/$@ $<
 
 main: main.o
-	$(CXX) -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^) $(LFLAGS) -s -lpthread
+	$(CXX) -o $(OUTDIR)/$@ $(patsubst %,$(OBJDIR)/%,$^) $(LFLAGS) -s -pthread
 
 clean:
 	-rm $(OBJDIR)/main.o

@@ -22,10 +22,10 @@ dirs:
 
 all: static
 
-dll: CFLAGS_EXTRA := -fpic -DMATRIX_USE_DLL -DDLL_EXPORTS
+dll: CFLAGS_EXTRA := -pthread -fpic -DMATRIX_USE_DLL -DDLL_EXPORTS
 dll: dirs Matrix.so
 
-static: CFLAGS_EXTRA :=
+static: CFLAGS_EXTRA := -pthread
 static: dirs Matrix.a
 
 Matrix.so: matrix_exception.o matrix.o
