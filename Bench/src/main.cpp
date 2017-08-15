@@ -10,7 +10,7 @@
 #include "matrix.h"
 #include "matrix_exception.h"
 
-#define BEN_ORDER 15L
+#define BEN_ORDER 50L
 
 /*---------------------------- Benchmark ------------------------------*/
 class Timer {

@@ -20,29 +20,6 @@ template<typename _Tp> void determinant_matrix();
 
 /*---------------------------- Main Routine ---------------------------*/
 int main() {
-
-	//{
-	//	Matrix<double> A;
-	//	Matrix<double> C;
-
-	//	/* Read details for Matrix A */
-	//	std::cout << "\nEnter details for Matrix A :-\n";
-	//	A = read_matrix<double>();
-
-	//	std::cout << "\nMatrix A :-";
-	//	print_matrix<double>(A);
-
-	//	/* Perform Crout Decomposition */
-	//	C = lu_decompose(A);
-
-	//	/* Print out result */
-	//	std::cout << "\nCrout Decomposition :-";
-	//	print_matrix<double>(C);
-	//}
-
-
-
-
 	std::vector< std::string > menu = std::vector< std::string >(0);
 
 	// Add menu entities...

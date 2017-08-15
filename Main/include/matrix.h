@@ -25,7 +25,10 @@
 template<typename _Tp> class MATRIX_API Matrix;
 
 template<typename _Tp> MATRIX_API _Tp MATRIX_CALL determinant(const Matrix<_Tp>&);
+template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL identity(const std::size_t&);
 template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL transpose(const Matrix<_Tp>&);
+template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL swapRow(const Matrix<_Tp>&, const std::size_t &, const std::size_t &);
+template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL swapCol(const Matrix<_Tp>&, const std::size_t &, const std::size_t &);
 template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL cofactor(const Matrix<_Tp>&);
 template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL adjoint(const Matrix<_Tp>&);
 template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL inverse(const Matrix<_Tp>&);

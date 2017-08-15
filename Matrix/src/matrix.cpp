@@ -338,6 +338,18 @@ template<typename _Tp> MATRIX_API bool MATRIX_CALL operator!=(const Matrix<_Tp>&
 
 
 /*--------------------------- Matrix Functions --------------------------*/
+template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL identity(const std::size_t& order) {
+	Matrix<_Tp> C(order, order);
+	register std::size_t i;
+
+	for (i = 0; i < order; ++i) {
+		C(i, i) = 1;
+	}
+	
+	return C;
+}
+
+
 template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL transpose(const Matrix<_Tp>& A) {
 	Matrix<_Tp> C(A.getN(), A.getM());
 	register std::size_t i;
@@ -359,6 +371,40 @@ template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL transpose(const Matrix
 	for(std::thread &t : th) {
 		t.join();
 	};
+
+	return C;
+}
+
+
+template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL swapRow(const Matrix<_Tp>& A, const std::size_t &i1, const std::size_t &i2) {
+	Matrix<_Tp> C(A);
+	register std::size_t j;
+
+	if (i1 >= 0 && i2 >= 0 && (A.getM() < i1 || A.getM() < i2)) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_INVALID_INDEX);
+	}
+
+	for (j = 0; j < A.getN(); ++j) {
+		C(i1-1, j) = A(i2-1, j);
+		C(i2-1, j) = A(i1-1, j);
+	}
+
+	return C;
+}
+
+
+template<typename _Tp> MATRIX_API Matrix<_Tp> MATRIX_CALL swapCol(const Matrix<_Tp>& A, const std::size_t &j1, const std::size_t &j2) {
+	Matrix<_Tp> C(A);
+	register std::size_t i;
+
+	if (j1 >= 0 && j2 >= 0 && (A.getN() < j1 || A.getN() < j2)) {
+		throw MatrixException(MatrixException::MatrixError::MATRIX_INVALID_INDEX);
+	}
+
+	for (i = 0; i < A.getM(); ++i) {
+		C(i, j1 - 1) = A(i, j2 - 1);
+		C(i, j2 - 1) = A(i, j1 - 1);
+	}
 
 	return C;
 }
@@ -586,7 +632,10 @@ template<typename _Tp, typename _Dt> MATRIX_API Matrix<_Dt> MATRIX_CALL inverse(
 #define SPEC_DECL_A(_A) \
 	template class MATRIX_API Matrix<_A>; \
 	template MATRIX_API _A MATRIX_CALL determinant(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL identity(const std::size_t&); \
 	template MATRIX_API Matrix<_A> MATRIX_CALL transpose(const Matrix<_A>&); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL swapRow(const Matrix<_A>&, const std::size_t &, const std::size_t &); \
+	template MATRIX_API Matrix<_A> MATRIX_CALL swapCol(const Matrix<_A>&, const std::size_t &, const std::size_t &); \
 	template MATRIX_API Matrix<_A> MATRIX_CALL cofactor(const Matrix<_A>&); \
 	template MATRIX_API Matrix<_A> MATRIX_CALL adjoint(const Matrix<_A>&); \
 	template MATRIX_API Matrix<_A> MATRIX_CALL inverse(const Matrix<_A>&); \
