@@ -152,18 +152,6 @@ template<typename _Tp> Matrix<_Tp>& MATRIX_CALL Matrix<_Tp> :: operator*=(const 
 		t.join();
 	};
 
-	/*for (i = 0; i < C.getM(); ++i) {
-		std::size_t j;
-		for (j = 0; j < C.getN(); ++j) {
-			std::size_t k;
-			_Tp sum = 0;
-			for (k = 0; k < A.getM(); ++k) {
-				sum += A(k, j) * (*this)(i, k);
-			}
-			C(i, j) = sum;
-		}
-	}*/
-
 	this->m = C.getM();
 	this->n = C.getN();
 	this->data.clear();
