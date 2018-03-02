@@ -11,8 +11,8 @@ OBJDIR :=	$(SRCTREE)obj
 LIBDIR :=	$(SRCTREE)lib
 INCDIR :=	$(SRCTREE)include
 
-CFLAGS :=	-O3 -std=c++11 -Wall -pedantic
-CFLAGS_EXTRA :=
+CFLAGS :=	-O3 -std=c++11 -Wall -pedantic -fprofile-arcs -ftest-coverage
+CFLAGS_EXTRA := 
 
 
 dirs:
