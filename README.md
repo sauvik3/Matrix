@@ -1,4 +1,4 @@
-# Matrix : A Generic Matrix Library in C++  [![Build Status](https://travis-ci.org/sauvik3/Matrix.svg?branch=master)](https://travis-ci.org/sauvik3/Matrix)&nbsp; [![Build status](https://ci.appveyor.com/api/projects/status/d2jnxclg20vd0o50?svg=true)](https://ci.appveyor.com/project/sauvik3/matrix)&nsbp; [![Coverage Status](https://coveralls.io/repos/github/sauvik3/Matrix/badge.svg?branch=master)](https://coveralls.io/github/sauvik3/Matrix?branch=master)
+# Matrix : A Generic Matrix Library in C++  [![Build Status](https://travis-ci.org/sauvik3/Matrix.svg?branch=master)](https://travis-ci.org/sauvik3/Matrix)&nbsp; [![Build status](https://ci.appveyor.com/api/projects/status/d2jnxclg20vd0o50?svg=true)](https://ci.appveyor.com/project/sauvik3/matrix)&nbsp; [![Coverage Status](https://coveralls.io/repos/github/sauvik3/Matrix/badge.svg?branch=master)](https://coveralls.io/github/sauvik3/Matrix?branch=master)
 Description
 -------------------------------------------------------
 
