@@ -56,6 +56,7 @@ before_install:
   - which $CC
   - which valgrind
   - if [ -n "$CLANG_VERSION" ]; then sudo CXX=$CXX CC=$CC ./tests/install_libcxx.sh; fi
+  - pip install --user cpp-coveralls
 
 install:
   - cd $CHECKOUT_PATH
@@ -84,6 +85,10 @@ script:
   - ./"${BIN}"
   - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./"${BIN}"
   - make all;
+  - ./configure --enable-gcov && make && make check
+  
+after_success:
+  - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
 
 notifications:
   email: false
