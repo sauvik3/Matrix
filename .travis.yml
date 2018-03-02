@@ -79,13 +79,11 @@ install:
   # Build examples
   - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
   - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
-  
 
 script:
   - ./"${BIN}"
   - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./"${BIN}"
   - make all;
-  - ./configure --enable-gcov && make && make check
   
 after_success:
   - coveralls --exclude lib --exclude tests --gcov-options '\-lp'
