@@ -1,7 +1,7 @@
-language: cpp
 matrix:
   include:
     # works on Precise and Trusty
+    - language: cpp
     - os: linux
       addons:
         apt:
@@ -15,6 +15,7 @@ matrix:
       env: GCC_VERSION=4.9 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
 
     # works on Precise and Trusty
+    - language: cpp
     - os: linux
       addons:
         apt:
