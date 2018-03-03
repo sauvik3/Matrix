@@ -2,6 +2,8 @@
 # - Louis Dionne's Hana: https://github.com/ldionne/hana
 # - Paul Fultz II's FIT: https://github.com/pfultz2/Fit
 # - Eric Niebler's range-v3: https://github.com/ericniebler/range-v3
+dist: trusty
+sudo: false
 language: cpp
 
 # Test matrix:
@@ -16,7 +18,7 @@ language: cpp
 matrix:
   include:
    
-# Test gcc-4.8: C++11, Build=Debug/Release, ASAN=Off
+    # Test gcc-4.8: C++11, Build=Debug/Release, ASAN=Off
     - env: GCC_VERSION=4.8 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
       os: linux
       addons: &gcc48
@@ -30,10 +32,6 @@ matrix:
       addons: *gcc48
       
     # Test gcc-6: C++11, Build=Debug/Release, ASAN=Off
-    dist: trusty
-        sudo: false
-        language: cpp
-
     - env: GCC_VERSION=6 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
         addons:
           apt:
