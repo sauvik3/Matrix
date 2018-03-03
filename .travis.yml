@@ -73,7 +73,7 @@ install:
 
 script:
   - make all
-  - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./"${BIN}"
+  - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./Bench/bin/main
   
 after_success:
   - coveralls --root .
