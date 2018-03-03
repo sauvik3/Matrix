@@ -10,7 +10,6 @@ notifications:
   email: false
 
 env:
-  global:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
   # "Defining the build matrix only with matrix.include leads to an additional, unwanted job"
   matrix:
@@ -21,14 +20,6 @@ addons:
   apt:
     sources: &apt_sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-precise
-      - llvm-toolchain-precise-3.5
-      - llvm-toolchain-precise-3.6
-      - llvm-toolchain-precise-3.7
-      - llvm-toolchain-precise-3.8
-      - llvm-toolchain-trusty
-      - llvm-toolchain-trusty-3.9
-      - llvm-toolchain-trusty-4.0
       - llvm-toolchain-trusty-5.0
 
 compiler: gcc
