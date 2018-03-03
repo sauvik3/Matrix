@@ -47,6 +47,10 @@ matrix:
           packages: ["g++-6", "g++-6-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle", "valgrind"]
           sources: *apt_sources
 
+# Install dependencies
+before_install:
+  - pip install --user cpp-coveralls          
+
 before_script:
   - if [ -n "${CLANG}" ]; then COMPILER="$CLANG"; fi
   - ${COMPILER} --version
@@ -57,5 +61,5 @@ script:
   - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./Bench/bin/main
 
 after_success:
-  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
+  - if [ -n "${CODE_COVERAGE}" ]; then coveralls --root . --gcov /usr/bin/gcov-4.8; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
