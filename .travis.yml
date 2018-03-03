@@ -1,5 +1,5 @@
+language: cpp
 matrix:
-  language: cpp
   include:
     # works on Precise and Trusty
     - os: linux
