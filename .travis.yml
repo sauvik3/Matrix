@@ -38,8 +38,10 @@ matrix:
         apt:
         sources:
             - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
         packages:
             - g++-6
+            - clang-5.0
             - valgrind
     
     - env: GCC_VERSION=6 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
