@@ -53,9 +53,6 @@ before_install:
   - export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}";
   - export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}";
   - if [ "$CLANG_VERSION" == "3.4" ]; then export CXX="/usr/local/clang-3.4/bin/clang++" CC="/usr/local/clang-3.4/bin/clang"; fi
-  - which $CXX
-  - which $CC
-  - which valgrind
   - if [ -n "$CLANG_VERSION" ]; then sudo CXX=$CXX CC=$CC ./tests/install_libcxx.sh; fi
   - pip install --user cpp-coveralls
 
