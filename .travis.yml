@@ -9,9 +9,9 @@ matrix:
           packages:
             - g++-4.9
             - valgrind
-      - env: GCC_VERSION=4.9 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
+      env: GCC_VERSION=4.9 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
       
-      - env: GCC_VERSION=4.9 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
+      env: GCC_VERSION=4.9 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
 
     # works on Precise and Trusty
     - os: linux
@@ -22,9 +22,9 @@ matrix:
           packages:
             - g++-6
             - valgrind
-      - env: GCC_VERSION=6 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
+      env: GCC_VERSION=6 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
       
-      - env: GCC_VERSION=6 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
+      env: GCC_VERSION=6 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
 
 # Install dependencies
 before_install:
