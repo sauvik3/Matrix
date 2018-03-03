@@ -72,9 +72,7 @@ install:
   - CXX_FLAGS="${CXX_FLAGS} -std=c++${CPP}"
 
 script:
-  # Builds
-  - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
-  - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
+  - make all
   - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./"${BIN}"
   
 after_success:
