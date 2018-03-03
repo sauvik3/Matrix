@@ -50,6 +50,13 @@ matrix:
 # Install dependencies
 before_install:
   - export CHECKOUT_PATH=`pwd`;
+  - export CXX="g++-${GCC_VERSION}" CC="gcc-${GCC_VERSION}";
+  - export CXX="clang++-${CLANG_VERSION}" CC="clang-${CLANG_VERSION}";
+  - if [ "$CLANG_VERSION" == "3.4" ]; then export CXX="/usr/local/clang-3.4/bin/clang++" CC="/usr/local/clang-3.4/bin/clang"; fi
+  - which $CXX
+  - which $CC
+  - which valgrind
+  - if [ -n "$CLANG_VERSION" ]; then sudo CXX=$CXX CC=$CC ./tests/install_libcxx.sh; fi
   - pip install --user cpp-coveralls
 
 install:
@@ -70,13 +77,11 @@ install:
   - if [ "$LIBCXX" == "On" ]; then CXX_LINKER_FLAGS="${CXX_FLAGS} -L/usr/lib/ -lc++"; fi
   - CXX_FLAGS="${CXX_FLAGS} -std=c++${CPP}"
 
-  # Build examples
+script:
+  # Builds
   - if [ "$BUILD_TYPE" == "Release" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
   - if [ "$BUILD_TYPE" == "Debug" ]; then make all CXXFLAGS="${CXX_FLAGS} ${CXX_LINKER_FLAGS}" VERBOSE=1; export BIN=Bench/bin/main; fi
-
-script:
   - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./"${BIN}"
-  - make all;
   
 after_success:
   - coveralls --root .
