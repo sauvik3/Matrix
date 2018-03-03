@@ -44,6 +44,7 @@ matrix:
       compiler: gcc
       addons: &gcc48
         apt:
+         - |
           packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle" "valgrind"]
           sources: *apt_sources
 
@@ -52,6 +53,7 @@ matrix:
       compiler: gcc
       addons: &gcc6
         apt:
+         - |
           packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386" "lcov", "astyle" "valgrind"]
           sources: *apt_sources
 
@@ -66,3 +68,4 @@ script:
 
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b . -i src -e tests --gcov /usr/bin/gcov-4.8; fi
+  - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
