@@ -6,6 +6,16 @@ dist: trusty
 sudo: false
 language: cpp
 
+addons:
+    apt:
+      sources:
+        - ubuntu-toolchain-r-test
+        - llvm-toolchain-trusty-5.0
+      packages:
+        - g++-6
+        - clang-5.0
+        - valgrind
+
 # Test matrix:
 # - Build matrix per compiler: C++11/C++14 + Debug/Release
 # - Optionally: AddressSanitizer (ASAN)
@@ -33,19 +43,8 @@ matrix:
       
     # Test gcc-6: C++11, Build=Debug/Release, ASAN=Off
     - env: GCC_VERSION=6 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
-      os: linux
-      addons:
-        apt:
-        sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
-        packages:
-            - g++-6
-            - clang-5.0
-            - valgrind
-    
+
     - env: GCC_VERSION=6 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
-      os: linux
 
 # Install dependencies
 before_install:
