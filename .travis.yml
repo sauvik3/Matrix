@@ -33,15 +33,16 @@ matrix:
       
     # Test gcc-6: C++11, Build=Debug/Release, ASAN=Off
     - env: GCC_VERSION=6 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
-        addons:
-          apt:
-            packages:
-              - g++-6
-              - valgrind
+      os: linux
+      addons: &gcc6
+        apt:
+          packages:
+            - g++-6
+            - valgrind
     
     - env: GCC_VERSION=6 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
       os: linux
-      addons: *gcc6
+      addons: &gcc6
 
 # Install dependencies
 before_install:
