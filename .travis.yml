@@ -23,7 +23,7 @@ matrix:
       os: linux
       addons: &gcc48
         apt:
-          packages:
+        packages:
             - g++-4.8
             - valgrind
 
@@ -34,15 +34,16 @@ matrix:
     # Test gcc-6: C++11, Build=Debug/Release, ASAN=Off
     - env: GCC_VERSION=6 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
       os: linux
-      addons: &gcc6
+      addons:
         apt:
-          packages:
+        sources:
+            - ubuntu-toolchain-r-test
+        packages:
             - g++-6
             - valgrind
     
     - env: GCC_VERSION=6 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
       os: linux
-      addons: &gcc6
 
 # Install dependencies
 before_install:
