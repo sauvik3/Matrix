@@ -86,7 +86,7 @@ script:
   
 after_success:
   - touch *.gc*
-  - coveralls --gcov-options '\-lp'
+  - coveralls --root .
 
 notifications:
   email: false
