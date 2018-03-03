@@ -22,10 +22,12 @@ matrix:
     - env: GCC_VERSION=4.8 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
       os: linux
       addons: &gcc48
-        apt:
+       apt:
         packages:
             - g++-4.8
             - valgrind
+        sources:
+            - ubuntu-toolchain-r-test
 
     - env: GCC_VERSION=4.8 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
       os: linux
@@ -35,17 +37,18 @@ matrix:
     - env: GCC_VERSION=6 BUILD_TYPE=Debug CPP=11 ASAN=Off LIBCXX=Off
       os: linux
       addons:
-        apt:
-        sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+       apt:
         packages:
             - g++-6
             - clang-5.0
             - valgrind
+        sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
     
     - env: GCC_VERSION=6 BUILD_TYPE=Release CPP=11 ASAN=Off LIBCXX=Off
       os: linux
+      addons: *gcc-6
 
 # Install dependencies
 before_install:
