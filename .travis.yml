@@ -10,6 +10,7 @@ notifications:
   email: false
 
 env:
+  global:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/4681
   # "Defining the build matrix only with matrix.include leads to an additional, unwanted job"
   matrix:
@@ -35,8 +36,7 @@ matrix:
       compiler: gcc
       addons: &gcc48
         apt:
-         - |
-          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle" "valgrind"]
+          packages: ["g++-4.8", "g++-4.8-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle", "valgrind"]
           sources: *apt_sources
 
     # GCC 6
@@ -44,8 +44,7 @@ matrix:
       compiler: gcc
       addons: &gcc6
         apt:
-         - |
-          packages: ["g++-6",   "g++-6-multilib",   "libc6-dbg", "libc6-dbg:i386" "lcov", "astyle" "valgrind"]
+          packages: ["g++-6", "g++-6-multilib", "libc6-dbg", "libc6-dbg:i386", "lcov", "astyle", "valgrind"]
           sources: *apt_sources
 
 before_script:
