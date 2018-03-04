@@ -16,9 +16,15 @@ CFLAGS_EXTRA :=
 
 
 dirs:
-	@if [ ! -d $(OUTDIR) ]; then mkdir -p $(notdir $(OUTDIR)); fi
-	@if [ ! -d $(OBJDIR) ]; then mkdir -p $(notdir $(OBJDIR)); fi
-	@if [ ! -d $(LIBDIR) ]; then mkdir -p $(notdir $(LIBDIR)); fi
+ifeq ("$(wildcard $(OBJDIR)/.)", "")
+	-mkdir $(notdir $(OBJDIR))
+endif
+ifeq ("$(wildcard $(LIBDIR)/.)", "")
+	-mkdir $(notdir $(LIBDIR))
+endif
+ifeq ("$(wildcard $(OUTDIR)/.)", "")
+	-mkdir $(notdir $(OUTDIR))
+endif
 
 all: static
 
@@ -43,6 +49,6 @@ Matrix.a: matrix_exception.o matrix.o
 
 
 clean::
-	-rm $(OBJDIR)/matrix.o
-	-rm $(LIBDIR)/Matrix.a
-	-rm $(OUTDIR)/Matrix.so
+	$(RM) $(OBJDIR)/matrix.o
+	$(RM) $(LIBDIR)/Matrix.a
+	$(RM) $(OUTDIR)/Matrix.so

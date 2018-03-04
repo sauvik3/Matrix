@@ -4,34 +4,34 @@
 all: Bench-static Main-static
 
 Matrix-static: 
-		make -C Matrix static
+		$(MAKE) -C Matrix static
 
 Bench-static:	Matrix-static
 		mkdir -p Bench/lib
 		cp -p Matrix/lib/Matrix.a -t Bench/lib
-		make -C Bench use-static
+		$(MAKE) -C Bench use-static
 
 Main-static:	Matrix-static
 		mkdir -p Main/lib
 		cp -p Matrix/lib/Matrix.a -t Main/lib
-		make -C Main use-static
+		$(MAKE) -C Main use-static
 		
 Matrix-dll: 
-		make -C Matrix dll
+		$(MAKE) -C Matrix dll
 
 Bench-dll:	Matrix-dll
 		mkdir -p Bench/bin
 		cp -p Matrix/bin/Matrix.so -t Bench/bin
-		make -C Bench use-shared
+		$(MAKE) -C Bench use-shared
 
 Main-dll:	Matrix-dll
 		mkdir -p Main/bin
 		cp -p Matrix/bin/Matrix.so -t Main/bin
-		make -C Main use-shared
+		$(MAKE) -C Main use-shared
 
 clean: 
-		make -C Bench	clean
-		make -C Main	clean
-		make -C Matrix	clean
+		$(MAKE) -C Bench	clean
+		$(MAKE) -C Main	clean
+		$(MAKE) -C Matrix	clean
 		
 .PHONY: all Matrix clean

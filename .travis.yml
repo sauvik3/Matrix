@@ -62,7 +62,7 @@ script:
   - make all;
   
 after_success:
-  - coveralls --root .
+  - coveralls --gcov-options 'obj/main.gcno'
 
 notifications:
   email: false

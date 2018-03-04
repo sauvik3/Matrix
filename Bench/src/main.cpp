@@ -215,7 +215,6 @@ template<typename _Tp, typename _Dt> double inverse_matrix() {
 
 template<typename _Tp> double determinant_matrix() {
 	Matrix<_Tp> A;
-	_Tp det;
 	double t;
 
 	/* Fill values for Matrix A */
@@ -224,7 +223,7 @@ template<typename _Tp> double determinant_matrix() {
 	/* Find Determinant of Matrix */
 	{
 		Timer tmr;
-		det = determinant<_Tp>(A);
+		_Tp det = determinant<_Tp>(A);
 		t = tmr.elapsed();
 	}
 
