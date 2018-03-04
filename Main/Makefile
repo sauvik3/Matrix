@@ -34,7 +34,7 @@ use-shared: LFLAGS := -L$(SRCTREE) -l:$(OUTDIR)/Matrix.so -lgcov --coverage
 use-shared: dirs main
 
 use-static: CFLAGS_EXTRA := -pthread
-use-static: LFLAGS := $(LIBDIR)/Matrix.a -lgcov --coverage
+use-static: LFLAGS += $(LIBDIR)/Matrix.a -lgcov --coverage
 use-static: dirs main
 
 %.o: $(SRCDIR)/%.cpp

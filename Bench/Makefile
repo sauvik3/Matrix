@@ -30,11 +30,11 @@ endif
 all: use-static
 
 use-shared: CFLAGS_EXTRA += -pthread -DMATRIX_USE_DLL -DDLL_IMPORTS
-use-shared: LFLAGS := -L$(SRCTREE) -l:$(OUTDIR)/Matrix.so
+use-shared: LFLAGS += -L$(SRCTREE) -l:$(OUTDIR)/Matrix.so
 use-shared: dirs main
 
 use-static: CFLAGS_EXTRA += -pthread
-use-static: LFLAGS := $(LIBDIR)/Matrix.a
+use-static: LFLAGS += $(LIBDIR)/Matrix.a
 use-static: dirs main
 
 %.o: $(SRCDIR)/%.cpp
