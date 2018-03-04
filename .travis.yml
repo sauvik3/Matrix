@@ -61,5 +61,5 @@ script:
   - valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes --trace-children=yes ./Bench/bin/main
 
 after_success:
-  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b ./Matrix/obj -i ./Matrix/src --gcov /usr/bin/gcov-4.8 --gcov-options '\-lp'; fi
+  - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b ./Bench/obj -i ./Bench/src --gcov /usr/bin/gcov-4.8 --gcov-options '\-lp'; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
