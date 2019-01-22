@@ -63,3 +63,16 @@ script:
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b ./Bench/obj -i ./Bench/src --gcov /usr/bin/gcov-4.8 --gcov-options '\-lp'; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
+
+before_deploy:
+  # Set up git user name and tag this commit
+  - git config --local user.name "sauvik3"
+  - git config --local user.email "sauvik3@gmail.com"
+  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
+  - git tag $TRAVIS_TAG
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: ./Main/bin/main
+  skip_cleanup: true
