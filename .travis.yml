@@ -65,10 +65,6 @@ after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
 
 before_deploy:
-  # Set up git user name and tag this commit
-  - git config --local user.name "sauvik3"
-  - git config --local user.email "sauvik3@gmail.com"
-  - git remote add origin https://user:${GH_TOKEN}@github.com/user/repo.git
   - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
   - git tag $TRAVIS_TAG
 
