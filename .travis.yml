@@ -63,16 +63,3 @@ script:
 after_success:
   - if [ -n "${CODE_COVERAGE}" ]; then coveralls -b ./Bench/obj -i ./Bench/src --gcov /usr/bin/gcov-4.8 --gcov-options '\-lp'; fi
   - if [ -n "${CODE_COVERAGE}" ]; then bash <(curl -s https://codecov.io/bash); fi
-
-before_deploy:
-  - export TRAVIS_TAG=${TRAVIS_TAG:-$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)}
-  - git tag $TRAVIS_TAG
-
-deploy:
-  api_key:
-    secure: XFDGSQMDMujr04zdv0i41HQqVDWX4R0HqohnWj8mZe4pwixOl/6dQd+O6rnguwmCoD6uzbxSptdHKXMi33Wp+izYG1J+Kne5aFVnlTJPt+YFmSgNd2kwmKzgFWNHAZ+iqPyR/6TPAWmGE0eWAS9n/aJPt5FY4f++FtpABRn6ybx+nHiH8pN19nn4vdkx3B71o9SVfL4h1fz5GPpe6yTjfg1lNMyjxAtWSEB+pms+zGWqG6njWgzYuMGj7EllDhA+9FenAf8yJeP54b+Ub3igtVuWHo/IcsHv3++Dq94qtV14VvlCkGH+phmvqE2dg+3R/uEKGMKcXhjbiwb3B53AaovS3ixF8vBVUIGV9N3efPN/CKFmahN3EMHtVy3hpPtpiZ3KiP3b50QKAORgKeR/tVoUrTmUayqk4kzHN3fTAfFUj6YLWFmpa/gQOv9PYyNm4Ld9dZItJxbgGxQQvhk6A9QqFQROL0NMWbee9icvdizsHu5O1tpDiz8rq0nxpQgvjDNO3oLNdwUx2REYt2Z8U8nx/bt76+hwvZYOlaoruyYJhNIeLDh9S7mHvNfZyL+rt0Awj0WfGjWLylUNxMbT7XMOe8//8k7Veg5oWN6Dt7QiFIWWjXOc3VXx7fplVh6dL2GWMCcka9tpfol2aDY6klR+B+hSverO+MIDdI5+Vp8=
-  provider: releases
-  file:
-    - "./Main/bin/main"
-    - "./Matrix/bin/matrix"
-  skip_cleanup: true
